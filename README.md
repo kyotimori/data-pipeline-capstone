@@ -3,6 +3,9 @@ End-to-end data pipeline project demonstrating ETL processes, data transformatio
 
 
 ## Branch strategy
+
 main - production-ready code
+
 feature/* - new functionality
+
 bugfix/* - bug fixes
