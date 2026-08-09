@@ -1,1 +1,13 @@
-echo "CI works"
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: check CI works
+        run: echo "CI works"
