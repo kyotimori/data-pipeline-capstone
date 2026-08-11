@@ -1,0 +1,15 @@
+services:
+  etl-utils:
+    build:
+      context: .
+      dockerfile: Dockerfile
+  
+    container_name: etl-utils-app
+
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD", "python", "-c", "import etl-utils"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
