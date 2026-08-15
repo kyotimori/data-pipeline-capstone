@@ -1,5 +1,6 @@
-import pandas as pd
 from typing import Any
+
+import pandas as pd
 
 
 def validate_required_columns(df: pd.DataFrame, required_columns: list[str]) -> bool:

@@ -9,7 +9,7 @@ services:
     restart: unless-stopped
 
     healthcheck:
-      test: ["CMD", "python", "-c", "import etl-utils"]
+      test: ["CMD", "python", "-c", "import etl_utils"]
       interval: 30s
       timeout: 10s
       retries: 3

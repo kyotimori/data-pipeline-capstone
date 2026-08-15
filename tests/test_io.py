@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from etl_utils.io import read_csv
 
 
@@ -7,4 +8,4 @@ def test_read_csv():
     df = read_csv(filepath)
 
     assert len(df) == 7
-    assert 'Employee ID' in df.columns
+    assert "Employee ID" in df.columns
