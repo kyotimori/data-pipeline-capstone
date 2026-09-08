@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from .exceptions import ConfigurationError
+from common.exceptions import ConfigurationError
 from pathlib import Path
 import os
 
@@ -13,7 +13,9 @@ class AppConfig:
     def __post_init__(self):
         if not os.path.exists(self.input_path):
             raise ConfigurationError('Input path does not exists')
-        if not os.path.exists(self.output_path):
+        if not self.input_path.is_file():
+            raise ConfigurationError('Input path is not a file')
+        if not os.path.exists(self.output_path.parent):
             raise ConfigurationError('Output path does not exists')
         if self.log_level not in ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']:
             raise ConfigurationError('Incorrect log level')
