@@ -1,3 +1,5 @@
+import logging
+
 from common.ports import Source, Storage
 from common.exceptions import ValidationError
 
@@ -8,14 +10,18 @@ from etl_utils.cleaning import (
 from etl_utils.validation import validate_required_columns
 
 
+logger = logging.getLogger(__name__)
+
 class Pipeline:
     def __init__(self, source: Source, storage: Storage):
         self.source = source
         self.storage = storage
 
     def run(self) -> None:
+        logger.info("Pipeline started")
         df = self.source.read()
 
+        logger.info("Validating data")
         df = normalize_column_names(df)
         df = remove_duplicates(df)
 
@@ -24,3 +30,4 @@ class Pipeline:
             raise ValidationError(f"Required columns are missing: {set(required_columns) - set(df.columns)}")
         
         self.storage.write(df)
+        logger.info("Pipeline finished")

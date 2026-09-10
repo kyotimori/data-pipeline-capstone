@@ -1,14 +1,22 @@
+import logging
+
 from pathlib import Path
 import pytest
 import pandas as pd
 
 from common.exceptions import SourceReadError, StorageWriteError, ValidationError
+from common.logging import setup_logging
 from ingestion.pipeline import Pipeline
 from source_emulator.csv_source import CsvSource
 from storage.csv_storage import CsvStorage
 
 
-def test_pipeline(tmp_path):
+setup_logging()
+
+
+def test_pipeline(tmp_path, caplog):
+    caplog.set_level(logging.INFO)
+
     source_filepath = Path(__file__).parent / "data" / "employees_dirty.csv"
     storage_filepath = tmp_path / "test_write_csv.csv"
     source = CsvSource(source_filepath)
@@ -19,6 +27,10 @@ def test_pipeline(tmp_path):
 
     assert storage_filepath.exists()
     assert not pd.read_csv(storage_filepath).empty
+    assert "Pipeline started" in caplog.text
+    assert f"Reading file {source_filepath}" in caplog.text
+    assert f"Writing into file {storage_filepath}" in caplog.text
+    assert "Pipeline finished" in caplog.text
 
 
 def test_pipeline_wo_required_columns(tmp_path):
