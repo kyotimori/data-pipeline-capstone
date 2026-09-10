@@ -1,4 +1,5 @@
 from common.ports import Source, Storage
+from common.exceptions import ValidationError
 
 from etl_utils.cleaning import (
     normalize_column_names,
@@ -20,6 +21,6 @@ class Pipeline:
 
         required_columns = ['employee_id', 'first_name']
         if not validate_required_columns(df, required_columns):
-            raise ValueError('Required columns are missing')
+            raise ValidationError(f"Required columns are missing: {set(required_columns) - set(df.columns)}")
         
         self.storage.write(df)

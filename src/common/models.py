@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from common.exceptions import ValidationError
+
 
 @dataclass(frozen=True)
 class Employee:
@@ -8,10 +10,10 @@ class Employee:
     department: str | None
     salary: float | None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if not isinstance(self.employee_id, int) or self.employee_id <= 0:
-            raise ValueError('employee_id must be positive')
+            raise ValidationError('employee_id must be positive')
         if not isinstance(self.first_name, str) or not self.first_name.strip():
-            raise ValueError('first_name must not be empty')
+            raise ValidationError('first_name must not be empty')
         if self.salary is not None and self.salary <= 0:
-            raise ValueError('salary must be positive')
+            raise ValidationError('salary must be positive')

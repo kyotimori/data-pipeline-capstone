@@ -1,5 +1,6 @@
 import pytest
 
+from common.exceptions import ValidationError
 from common.models import Employee
 
 
@@ -8,19 +9,19 @@ def test_employee():
 
 
 def test_employee_id():
-    with pytest.raises(ValueError):
+    with pytest.raises(ValidationError, match="employee_id must be positive"):
         Employee(0, 'Mary', 'IT', 3500)
-    with pytest.raises(ValueError):
+    with pytest.raises(ValidationError, match="employee_id must be positive"):
         Employee(None, 'Mary', 'IT', 3500)
 
 
 def test_employee_first_name():
-    with pytest.raises(ValueError):
+    with pytest.raises(ValidationError, match="first_name must not be empty"):
         Employee(345, None, 'IT', 3500)
 
 
 def test_employee_salary():
-    with pytest.raises(ValueError):
+    with pytest.raises(ValidationError, match="salary must be positive"):
         Employee(345, 'Mary', 'IT', -3500)
 
 
